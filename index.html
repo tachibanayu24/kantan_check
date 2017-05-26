@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>かんたん校正ツール</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style type="text/css">
+  <!--
+  .red {background-color:#FA6964;}
+  .blue {background-color: #ADF0FF;}
+  .yellow{background-color: #FFFF7F;}
+</style>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<!--
+  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+
+  <script src="../jquery.highlighttextarea.js"></script>
+-->
+  <link href="css/jquery.highlighttextarea.css" rel="stylesheet">
+  
+  <script>
+    function appendScript(src, callback) {
+      var head = document.getElementsByTagName('head')[0];
+    
+      if (src.endsWith(".js")) {
+        var elt = document.createElement("script");
+        elt.type = "text/javascript";
+        elt.src = src;
+      } else {
+        var elt = document.createElement("link");
+        elt.rel = "stylesheet";
+        elt.link = src;
+      }
+
+      elt.onload = function() {
+        callback();
+      }
+
+      head.appendChild(elt);
+    }
+ 
+    function runTest() {
+      $('#demo').highlightTextarea({
+          // 赤字のハイライト
+          words: [{
+            color: '#FA6964',
+            words: ['\t','\u0009','\u000B','―','-','ーー','…','ぁ','ぃ','ぅ','ぇ','ぉ','、\n','・\n','####','１','２','３','４','５','６','７','８','９','０','（','）','@']
+          }, {
+          // 黄色のハイライト
+            color: '#FFFF7F',
+            words: ['やり取り','関わらず','ヶ月','か月','ヵ月','所謂','クビ','恰好','1個1個','コミニケーション','お子様','ご主人様','馬鹿','苛立','元々','方々','今更','今さら','叩い']
+          }, {
+          // 青字のハイライト
+            color: '#ADF0FF',
+            words: ['今日']
+          }]
+      });
+
+      addDemo7Events();
+    }
+
+    function addDemo7Events() {
+        $('#demo7-textarea mark')
+            .on('mouseover', function (e) {
+                $('#demo7-last-event').html('Mouseover');
+            })
+            .on('mouseout', function (e) {
+                $('#demo7-last-event').html('Mouseout');
+            });
+    }
+    
+    function test() {
+      var jqv = "jquery-1.11.1.min.js";
+
+      try {
+        jqv = window.location.search.split('?')[1].split('=')[1];
+      } catch (e) {}
+
+      appendScript("https://code.jquery.com/" + jqv,
+        function() {
+          $('#jqv').val(jqv);
+
+          appendScript("https://code.jquery.com/ui/1.10.4/jquery-ui.min.js",
+          function() {
+            appendScript("js/jquery.highlighttextarea.js",
+            runTest
+          )})});
+    }
+
+  function setJQuery(newVersion) {
+    var jqv = $('#jqv').val();
+
+    window.location = 'index.html?jqv=' + jqv;
+  }
+ 
+  window.onload = test;
+  </script>
+
+
+</head>
+
+<body>
+
+<header>
+  <h1>かんたん校正ツール</h1>
+</header>
+
+  <article>
+    <p>以下のテキストエリアに原稿をそのままペーストしてください。<br>
+    間違いと思われる部分をハイライトで検出します。<br>
+    チェックされる文字の一覧はページ下部の表に列挙しています。<br><br>
+    <span class="red">書式・設定・記号等基本的な誤り</span>　インデント・三点リーダー・半角疑問符・ひらがなの小文字など<br>
+    <span class="yellow">誤字と思われる部分</span>　◯ヶ月・所謂など<br>
+    <span class="blue">用法によっては誤字の可能性がある部分</span>　今日など（「きょう」の場合はひらがな 「こんにち」の場合は漢字）<br><br>
+    最終更新日 2017/05/26</p>
+      
+    <textarea id="demo" cols="100" rows="70"></textarea><br><br>
+    <p>皆さまには試作段階の物をお使いいただいております。<br>
+    何かお気づきの点や、追加して欲しいチェック文字などございましたら、是非アンケートにご協力ください。<br>
+    匿名で、何度でもお答えいただけます。<br><br><a href="https://docs.google.com/forms/d/e/1FAIpQLSfe2Pkgpqmtz3Yn0y0OGIvL65rYntoWqubZwqJi6nsQ0zIbxA/viewform?usp=sf_link" target="_blank">アンケートページへ</a></p>
+  </article>
+
+<!-- テーブルは https://tabletag.net/ja/ で作ると楽です -->
+    <div id="boxA">
+      <table>
+        <tr bgcolor="#FA6964">
+          <td>チェック文字</td>
+          <td>備考</td>
+        </tr>
+        <tr>
+          <td>タブ文字</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>垂直タブ</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>-</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>―</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>ーー</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>三点リーダー</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>ぁ、ぃ、ぅ、ぇ、ぉ</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>、（改行）</td>
+          <td>。（改行）か
+              ？（改行）のみ可</td>
+        </tr>
+        <tr>
+          <td>・（改行）</td>
+          <td>。（改行）か
+              ？（改行）のみ可</td>
+        </tr>
+        <tr>
+          <td>（、）</td>
+          <td>カッコは半角</td>
+        </tr>
+        <tr>
+          <td>####</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>１，２，３～９．０</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>@</td>
+          <td>タイムスタンプの＠は全角</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+    </table>
+    </div>
+    <div id="boxB">
+    <table>
+        <tr bgcolor="#FFFF7F">
+          <td>チェック文字</td>
+          <td>備考</td>
+        </tr>
+        <tr>
+          <td>やり取り</td>
+          <td>ひらがな</td>
+        </tr>
+        <tr>
+          <td>関わらず</td>
+          <td>関わる　は漢字
+              関わらず　はひらがな</td>
+        </tr>
+        <tr>
+          <td>ヵ月、か月、ヶ月</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>所謂</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>恰好</td>
+          <td>格好が正しい</td>
+        </tr>
+        <tr>
+          <td>1個1個</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>コミニケーション</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>お子様,ご主人様</td>
+          <td>さまはひらがな</td>
+        </tr>
+        <tr>
+          <td>馬鹿</td>
+          <td>ひらがな</td>
+        </tr>
+        <tr>
+          <td>苛立</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>元々</td>
+          <td>ひらがな</td>
+        </tr>
+        <tr>
+          <td>方々</td>
+          <td>ひらがな</td>
+        </tr>
+        <tr>
+          <td>今更、今さら</td>
+          <td>ひらがな</td>
+        </tr>
+        <tr>
+          <td>叩い、叩く、叩け</td>
+          <td>ひらがな</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+    </table>
+    </div>
+    <div id="boxC">
+      <table>
+        <tr bgcolor="#ADF0FF">
+          <td>チェック文字</td>
+          <td>備考</td>
+        </tr>
+        <tr>
+          <td>今日</td>
+          <td>こんにち　の場合のみ漢字</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+        </tr>
+    </table>
+    </div>
+
+<br>
+<footer>Copyright(C) 株式会社IPパートナーズ ALL RIGHTS RESERVED.</footer>
+
+</body>
+</html>
